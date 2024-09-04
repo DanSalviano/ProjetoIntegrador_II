@@ -1,0 +1,113 @@
+﻿@model ProdutoAddOrEditViewModel
+
+@{
+    Layout = null;
+    var medidas =
+           new List<SelectListItem>() {
+                new SelectListItem() { Value="unid", Text = "Unidade"},
+                new SelectListItem() { Value="L", Text = "Litro"},
+                new SelectListItem() { Value="ml", Text = "ml"},
+                new SelectListItem() { Value="Kg", Text = "Kilo"},
+                new SelectListItem() { Value="g", Text = "Grama"},
+                new SelectListItem() { Value="mg", Text = "miligrama"},
+                new SelectListItem() { Value="Dz", Text = "Dúzia"},
+                new SelectListItem() { Value="Cento", Text = "Cento"}
+                                                                                    };
+}
+
+<div class="m-auto">
+    <form asp-action="AddOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this);" enctype="multipart/form-data" autocomplete="off">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+        <input asp-for="ArquivoImagem" accept="image/*" hidden />
+        <input type="hidden" asp-for="NomeArquivoImagem" />
+        <div class="row">
+            <div id="divImg" class="col-md-4">
+                <img id="imgAtual" class="img-thumbnail" src='@($"{Model.CaminhoImagem}?{Guid.NewGuid()}")' alt="@Model.CaminhoImagem" />
+                <button id="delImagem" type="button" class="btn-close" title="Descartar Imagem"></button>
+            </div>
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="form-group mb-2 col-md-12 col-xl-12">
+                        <label asp-for="Produto" class="control-label"></label>
+                        <input asp-for="Produto" class="form-control" />
+                        <span asp-validation-for="Produto" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-2 col-md-6">
+                        <label asp-for="CategoriaId" class="control-label"></label>
+                        <select asp-for="CategoriaId" asp-items="@Model.Categorias" class="form-select"></select>
+                        <span asp-validation-for="CategoriaId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-2 col-md-6">
+                        <label asp-for="Preco" class="control-label"></label>
+                        <input asp-for="Preco" class="form-control text-end" />
+                        <span asp-validation-for="Preco" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-2 col-md-6">
+                        <label asp-for="Conteudo" class="control-label"></label>
+                        <input asp-for="Conteudo" class="form-control" />
+                        <span asp-validation-for="Conteudo" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-2 col-md-6">
+                        <label asp-for="Medida" class="control-label"></label>
+                        <select asp-for="Medida" asp-items="medidas" class="form-select"></select>
+                        <span asp-validation-for="Medida" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-2 col-md-12 col-xl-12">
+                        <label asp-for="Descricao" class="control-label"></label>
+                        <input asp-for="Descricao" class="form-control" />
+                        <span asp-validation-for="Descricao" class="text-danger"></span>
+                    </div>
+                    <div class="form-group col-md-12 col-xl-12">
+                        <label asp-for="Ingredientes" class="control-label"></label>
+                        <input asp-for="Ingredientes" class="form-control">
+                        <span asp-validation-for="Ingredientes" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group mb-3 mt-3 col">
+                <div class="form-check form-switch">
+                    <input asp-for="@Model.IsAtivo" class="form-check-input">
+                    <label asp-for="@Model.IsAtivo" class="form-check-label"></label>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer row justify-content-end gap-2 pt-3 pb-0">
+            <button type="button" class="btn btn-secondary col-md-2" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" id="submit" class="btn btn-primary col-md-2">Salvar</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    $(document).ready(() => {
+        let campoNomeArquivoImagem = document.querySelector('#NomeArquivoImagem');
+        let imgAtual = document.querySelector('#imgAtual');
+
+        const inputImagem = document.querySelector('#ArquivoImagem');
+        inputImagem.addEventListener('change', (e) => {
+            let file = e.srcElement.files[0];
+            let reader = new FileReader();
+            reader.onloadend = function () {
+                imgAtual.src = reader.result;
+            }
+            reader.readAsDataURL(file);
+        });
+
+        const btnDelImg = document.querySelector('#delImagem');
+        btnDelImg.addEventListener('click', (e) => {
+            imgAtual.src = '../img/sem_imagem.webp'
+            campoNomeArquivoImagem.value = '';
+        })
+
+        $('#divImg').on('click', (e) => {
+            if (e.target != btnDelImg) {
+                $('#ArquivoImagem').click();
+            }
+        })
+    })
+</script>
+
+

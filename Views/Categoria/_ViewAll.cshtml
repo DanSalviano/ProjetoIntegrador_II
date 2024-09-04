@@ -1,0 +1,41 @@
+﻿@model IEnumerable<CategoriaViewModel>
+
+<partial name="_MensagemPartial" />
+
+<table id="view-allTable" class="table table-striped table-hover w-100">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nome)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderGroup)
+            </th>
+            <th>
+                <i class="bi bi-sliders"></i>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderGroup)
+                </td>
+                <td>
+                    <a onclick="showInPopup('@Url.Action("AddOrEdit","Categoria",new {id=item.Id},Context.Request.Scheme)','Editar Categoria')" class="btn btn-sm btn-primary text-white" title="Editar Categoria"><i class="bi bi-pencil-square"></i></a>
+                    <a onclick="showInPopup('@Url.Action("Details","Categoria",new {id=item.Id},Context.Request.Scheme)','Visualizar Categoria')" class="btn btn-sm btn-secondary text-white" title="Visualizar Categoria"><i class="bi bi-file-ruled-fill"></i></a>
+                    <form asp-action="Delete" method="post" onsubmit="return jQueryAjaxDelete(this)" class="d-inline">
+                        <input type="hidden" value="@item.Id" name="Id" />
+                        <input type="hidden" value="&nbsp;<strong>@item.Nome</strong>" name="TargetName" />
+                        <button type="submit" class="btn btn-sm btn-danger" title="Excluir Categoria"><i class="bi bi-trash"></i></button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

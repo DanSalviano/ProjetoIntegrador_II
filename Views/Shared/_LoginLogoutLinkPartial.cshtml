@@ -1,0 +1,32 @@
+@using PizzaDelivery.Extensions
+@inject UserManager<UsuarioModel> _userManager
+
+
+@if (Context.User.Identity.IsAuthenticated)
+{
+    var usuario = await _userManager.GetUserAsync(Context.User);
+    var roles = await _userManager.GetRolesAsync(usuario);
+    var isAdmin = roles.Contains("administrador");
+    var usericon = isAdmin ? "bi-person-check" : "bi-person";
+    var (FirstName, LastName) = @usuario.NomeCompleto.TplName();
+
+    <li id="UserLink" class="nav-item dropdown" style="border-left: solid 2px #FFD7B3">
+        <a class="nav-link dropdown-toggle ms-2 text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="@usericon"></i>
+            <b>@FirstName.ToUpper() <span id="spanUserlastname" data-userlastname="@LastName.ToUpper()"></span></b>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end login-dropdown">
+            <li><a class="dropdown-item" href="/Usuario/AlterarCadastro">Alterar Dados Cadastrais</a></li>
+            <li><a class="dropdown-item" asp-controller="Usuario" asp-action="AlterarSenha">Alterar Senha</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" asp-controller="Usuario" asp-action="Logout">Sair</a></li>
+        </ul>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="link-underline link-underline-opacity-0 ms-0 me-4" asp-action="Cadastrar" asp-controller="Usuario">Cadastre-se</a>
+        <a class="btn btn-login" asp-controller="Usuario" asp-action="Login">Entrar</a>
+    </li>
+}

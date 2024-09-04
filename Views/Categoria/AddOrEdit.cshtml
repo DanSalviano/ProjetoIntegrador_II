@@ -1,0 +1,25 @@
+﻿@model CategoriaViewModel
+@(Layout=null)
+
+<div class="m-auto">
+    <form asp-action="AddOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this);" autocomplete="off">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+        <div class="row">
+            <div class="form-group mb-2 col-md-8 col-xl-10">
+                <label asp-for="Nome" class="control-label"></label>
+                <input asp-for="Nome" class="form-control" />
+                <span asp-validation-for="Nome" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2 col-md-4 col-xl-2">
+                <label asp-for="OrderGroup" class="control-label"></label>
+                <select asp-for="OrderGroup" asp-items="Html.GetEnumSelectList<OrderGroup>()" class="form-select"></select>
+                <span asp-validation-for="OrderGroup" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="modal-footer row justify-content-end gap-2 pt-3 pb-0">
+            <button type="button" class="btn btn-secondary col-md-2" data-bs-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary col-md-2">Salvar</button>
+        </div>
+    </form>
+</div>

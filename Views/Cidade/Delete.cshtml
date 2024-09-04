@@ -1,0 +1,32 @@
+﻿@model CidadeAddOrEditViewModel
+
+@{
+    ViewBag.Subtitulo = "Exclusão de Cidade";
+}
+
+<h3>@ViewBag.Subtitulo</h3>
+<hr/>
+<h4>@($"Tem certeza que deseja apagar a Cidade {Model.Cidade}?")</h4>
+<br />
+<div>
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Cidade)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Cidade)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EstadoId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EstadoId)
+        </dd>       
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Confirmar" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

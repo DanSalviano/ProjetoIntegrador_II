@@ -1,0 +1,59 @@
+@model LoginViewModel
+@{
+    Layout = null;
+}
+
+<form id="ajaxlogin" asp-action="AjaxLogin" class="py-4 px-4" onsubmit="return jQueryAjaxLoginPost(this);" autocomplete="off">
+    <div asp-validation-summary="ModelOnly" class="validation-summary text-danger"></div>
+
+    <div class="form-group mb-4">
+        <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+            <div class="form-floating">
+                <input asp-for="@Model.Usuario" class="form-control" placeholder="Usuario">
+                <label asp-for="@Model.Usuario"></label>
+            </div>
+        </div>
+        <span asp-validation-for="@Model.Usuario" class="text-danger"></span>
+    </div>
+
+    <div class="w-100"></div>
+
+    <div class="form-group mb-4">
+        <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-key-fill"></i></span>
+            <div class="form-floating">
+                <input asp-for="@Model.Senha" class="form-control" placeholder="Senha">
+                <label asp-for="@Model.Senha"></label>
+            </div>
+        </div>
+        <span asp-validation-for="@Model.Senha" class="text-danger"></span>
+    </div>
+
+    <div class="w-100"></div>
+
+    <div class="form-group mb-5">
+        <div class="form-check form-switch">
+            <input asp-for="@Model.Lembrar" class="form-check-input">
+            <label asp-for="@Model.Lembrar" class="form-check-label"></label><br>
+            <span asp-validation-for="@Model.Lembrar" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="w-100"></div>
+
+    <div class="row px-3 mb-4">
+        <button type="submit" class="btn btn-lg btn-primary col"><i class="bi bi-box-arrow-in-right"></i>&nbsp;&nbsp;Entrar</button>
+    </div>
+
+    <div class="d-flex justify-content-between mx-2 text-muted" style="font-size:.9rem;">
+        <div>Não é cadastrado? <a asp-action="Cadastrar">Clique aqui</a></div>
+        <div>Esqueceu a senha? <a asp-action="RedefinirSenha">Clique aqui</a></div>
+    </div>
+</form>
+@*
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}*@

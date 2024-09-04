@@ -1,0 +1,30 @@
+﻿@model CategoriaViewModel
+
+@{
+    Layout = null;
+}
+<partial name="_MensagemPartial" />
+
+<h4>@Html.DisplayFor(model => model.Nome)</h4>
+<dl class="row">
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Nome)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Nome)
+    </dd>
+
+</dl>
+<dl class="row">
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.OrderGroup)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.OrderGroup)
+    </dd>
+
+</dl>
+<div class="modal-footer row justify-content-end gap-2 pt-3 pb-0">
+    <a onclick="showInPopup('@Url.Action("AddOrEdit","Categoria",new {id=Model.Id},Context.Request.Scheme)','Alterar Categoria')" class="btn btn-primary col-md-2" title="Alterar Categoria">Editar&nbsp;Categoria</a>
+    <button type="button" class="btn btn-secondary col-md-2" data-bs-dismiss="modal">Fechar</button>
+</div>

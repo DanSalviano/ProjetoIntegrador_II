@@ -1,0 +1,39 @@
+@model AlterarSenhaViewModel
+@{
+    ViewBag.Subtitulo = "Alteração de Senha";
+}
+
+<h3 class="subtitulo">Alteração de Senha</h3>
+<hr>
+
+<partial name="_MensagemPartial" />
+
+<div asp-validation-summary="ModelOnly" class="val-summary text-danger my-3"></div>
+
+<form asp-action="AlterarSenha" class="row">
+    <div class="form-group mb-3 col-4">
+        <label asp-for="@Model.SenhaAtual"></label><br>
+        <input asp-for="@Model.SenhaAtual" class="form-control">
+    </div>
+    <span asp-validation-for="@Model.SenhaAtual" class="text-danger"></span>
+
+    <div class="w-100 mt-3"></div>
+    <div class="form-group mb-3 col-4">
+        <label asp-for="@Model.NovaSenha"></label><br>
+        <input asp-for="@Model.NovaSenha" class="form-control">
+    </div>
+    <span asp-validation-for="@Model.NovaSenha" class="text-danger"></span>
+
+    <div class="w-100 mt-3"></div>
+    <div class="form-group mb-3 col-4">
+        <label asp-for="@Model.ConfNovaSenha"></label><br>
+        <input asp-for="@Model.ConfNovaSenha" class="form-control">
+    </div>
+    <span asp-validation-for="@Model.ConfNovaSenha" class="text-danger"></span>
+
+    <div class="w-100"></div>
+    <div class="mt-3">
+        <a asp-action="Index" asp-controller="Home" class="btn btn-light">Cancelar</a>
+        <button class="btn btn-primary" type="submit">Alterar</button>
+    </div>
+</form>

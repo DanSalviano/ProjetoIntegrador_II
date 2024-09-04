@@ -1,0 +1,11 @@
+@using PizzaDelivery.Interfaces;
+@using PizzaDelivery.Extensions
+@inject UserManager<UsuarioModel> _userManager
+
+@if (Context.User.Identity.IsAuthenticated)
+{
+    var usuario = await _userManager.GetUserAsync(Context.User);
+    var role = (await _userManager.GetRolesAsync(_userManager.FindByNameAsync(usuario.UserName).Result)).FirstOrDefault();
+
+    <span class="badge bg-success bg-gradient text-dark">@role</span>
+}

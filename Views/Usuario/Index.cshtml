@@ -1,0 +1,211 @@
+@{
+    ViewBag.Subtitulo = "Usuários";
+}
+@section styles {
+    <link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+}
+
+<header class="d-flex justify-content-between align-items-center">
+    <div>
+        <h3 class="subtitulo">@ViewBag.Subtitulo</h3>
+    </div>
+    <div>
+        <a asp-action="AddOrEdit" class="btn btn-primary"><i class="bi-person-plus"></i> &nbspNovo Usuário</a>
+    </div>
+</header>
+<hr>
+
+<partial name="_MensagemPartial" />
+
+<table id="searchTable" class="mb-3 w-100">
+    <thead></thead>
+</table>
+
+<table id="usuarioTable" class="table table-striped table-hover w-100"></table>
+
+@section Scripts {
+    @*    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>*@
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            var usuarioTable = $("#usuarioTable").DataTable({
+                language: Language,
+                serverSide: "true",
+                ajax: {
+                    deferRender: true,
+                    url: '/Usuario/GetData',
+                    type: 'POST',
+                    datatype: 'json'
+                },
+                columns: [
+                    {
+                        data: 'nome',
+                        name: 'Nome',
+                        title: 'Nome'
+                    },
+                    {
+                        data: 'login',
+                        name: 'Login',
+                        title: 'Login'
+                    },
+                    {
+                        data: 'estado',
+                        name: 'Estado',
+                        title: 'Estado',
+                        visible: false
+                    },
+                    {
+                        data: 'cidade',
+                        name: 'Cidade',
+                        title: 'Cidade'
+                    },
+                    {
+                        data: 'email',
+                        name: 'Email',
+                        title: 'Email'
+                    },
+                    {
+                        data: 'telefone',
+                        name: 'Telefone',
+                        title: 'Telefone'
+                    },
+                    {
+                        data: 'isMaster',
+                        name: 'isMaster',
+                        orderable: false,
+                        visible: false
+                    },
+                    {
+                        data: 'id',
+                        name: 'Id',
+                        title: '<i class="bi bi-sliders"></i>',
+                        className: 'text-center text-nowrap',
+                        orderable: false,
+                        width: '120px',
+                        render: function (data, type, row, meta) {
+                            var html = '';
+                            if (meta.settings.json.userRoles.includes('administrador')) {
+                                html = '<div class="hstack gap-1"><div class="btn-group">';
+                                if (row.isMaster) {
+                                    html += "<a class='btn btn-sm btn-success' href='/Usuario/remAdministrador/" + data + "' title='Remover privilégios de Administrador'><i class='bi-person-gear'></i></a>"
+                                } else {
+                                    html += "<a class='btn btn-outline-danger' href='/Usuario/addAdministrador/" + data + "' title='Conceder privilégios de Administrador'><i class='bi-person-gear'></i></a>"
+                                }
+                                if (row.roles.includes('gerente')) {
+                                    html += "<a class='btn btn-success' href='/Usuario/remGerente/" + data + "' title='Remover privilégios de Gerente'><i class='bi bi-person-vcard'></i></a>"
+                                } else {
+                                    html += "<a class='btn  btn-outline-danger' href='/Usuario/addGerente/" + data + "' title='Conceder privilégios de Gerente'><i class='bi bi-person-vcard'></i></a>"
+                                }
+                                if (row.roles.includes('pizzaiolo')) {
+                                    html += "<a class='btn btn-success' href='/Usuario/remPizzaiolo/" + data + "' title='Remover privilégios de Pizzaiolo'><i class='bi bi-fire'></i></a>"
+                                } else {
+                                    html += "<a class='btn btn-outline-danger' href='/Usuario/addPizzaiolo/" + data + "' title='Conceder privilégios de Pizzaiolo'><i class='bi bi-fire'></i></a>"
+                                }
+                                if (row.roles.includes('entregador')) {
+                                    html += "<a class='btn btn-success' href='/Usuario/remEntregador/" + data + "' title='Remover privilégios de Entregador'><i class='bi bi-bicycle'></i></a>"
+                                } else {
+                                    html += "<a class='btn btn-outline-danger' href='/Usuario/addEntregador/" + data + "' title='Conceder privilégios de Entregador'><i class='bi bi-bicycle'></i></a>"
+                                }
+                                html += "</div>&nbsp;<a class='btn btn-sm btn-primary' href='/Usuario/AddOrEdit/" + data + "' title='Editar usuário'><i class='bi bi-pencil-square'></i></a>"
+                                html += "<a class='btn btn-sm btn-danger' href='/Usuario/Delete/" + data + "' title='Excluir usuário'><i class='bi bi-trash'></i></a>"
+                                html += "</div>"
+                            } else if (meta.settings.json.userRoles.includes('gerente')) {
+                                html = '<div class="hstack gap-1"><div class="btn-group">';
+                                if (row.roles.includes('gerente')) {
+                                    html += "<a class='btn btn-success' href='/Usuario/remGerente/" + data + "' title='Remover privilégios de Gerente'><i class='bi bi-person-vcard'></i></a>"
+                                } else {
+                                    html += "<a class='btn  btn-outline-danger' href='/Usuario/addGerente/" + data + "' title='Conceder privilégios de Gerente'><i class='bi bi-person-vcard'></i></a>"
+                                }
+                                if (row.roles.includes('pizzaiolo')) {
+                                    html += "<a class='btn btn-success' href='/Usuario/remPizzaiolo/" + data + "' title='Remover privilégios de Pizzaiolo'><i class='bi bi-fire'></i></a>"
+                                } else {
+                                    html += "<a class='btn btn-outline-danger' href='/Usuario/addPizzaiolo/" + data + "' title='Conceder privilégios de Pizzaiolo'><i class='bi bi-fire'></i></a>"
+                                }
+                                if (row.roles.includes('entregador')) {
+                                    html += "<a class='btn btn-success' href='/Usuario/remEntregador/" + data + "' title='Remover privilégios de Entregador'><i class='bi bi-bicycle'></i></a>"
+                                } else {
+                                    html += "<a class='btn btn-outline-danger' href='/Usuario/addEntregador/" + data + "' title='Conceder privilégios de Entregador'><i class='bi bi-bicycle'></i></a>"
+                                }
+                                html += "</div>&nbsp;<a class='btn btn-sm btn-primary' href='/Usuario/AddOrEdit/" + data + "' title='Editar usuário'><i class='bi bi-pencil-square'></i></a>"
+                                html += "<a class='btn btn-sm btn-danger' href='/Usuario/Delete/" + data + "' title='Excluir usuário'><i class='bi bi-trash'></i></a>"
+                                html += "</div>"
+                            }
+                            return html;
+                        }
+                    },
+                ],
+                order: [0, "asc"],
+                //"dom": '<"top"l>rt<"bottom"ip><"clear">',
+                fnInitComplete: function (oSettings, json) {
+                    addSearchControl(json);
+                },
+            });
+
+            function addSearchControl(json) {
+                $("#searchTable thead").append($("#usuarioTable thead tr:first").clone());
+                $("#searchTable thead tr:first").addClass("row");
+                $("#searchTable thead tr:eq(0) th").each(function (index) {
+
+                    if (index != 2 && index != 3) {
+                        $(this).addClass('d-none')
+                        //$(this).replaceWith('<th><input type="text" placeholder="Search ' + $(this).html() + '"></input></th>');
+                        //var searchControl = $("#searchTable thead tr:eq(0) th:eq(" + index + ") input");
+                        //searchControl.on('keyup', function () {
+                        //    usuarioTable.column(index).search(searchControl.val()).draw();
+                        //});
+                    }
+                    if (index == 2) {
+                        var estadoDropDown = $('<select/>').attr('class', 'form-select');
+                        estadoDropDown.append($('<option/>').attr('value', '').text('[TODAS]'));
+                        var estado = [];
+                        $(json.data).each(function (index, element) {
+                            if ($.inArray(element.estado, estado) == -1) {
+                                estado.push(element.estado);
+                                estadoDropDown.append($('<option/>').attr('value', element.estado).text(element.estado));
+                            }
+                        });
+                        $(this).replaceWith('<th class="col-sm-12 col-md-6 pe-md-2"><label class="form-label">Estado</label>' + $(estadoDropDown).prop('outerHTML') + '</th>');
+                        var searchControl = $("#searchTable thead tr:eq(0) th:eq(" + index + ") select");
+                        searchControl.on('change', function () {
+
+                            $("#searchTable thead tr:eq(0) th:eq(3) select option").each(function (index, element) {
+                                if (index != 0) {
+                                    if (element.getAttribute("coordid") == searchControl.val()) {
+                                        element.classList.remove('d-none')
+                                    } else {
+                                        element.classList.add('d-none')
+                                    }
+                                }
+                            });
+
+                            $("#searchTable thead tr:eq(0) th:eq(" + (index + 1) + ") select").prop('selectedIndex', 0); //Seleciona o option[0] do select dependente, quando o evento change do 1º select é disparado
+                            if (searchControl.val() == "")
+                                usuarioTable.column(index + 1).search('').draw();
+
+                            usuarioTable.column(index).search(searchControl.val()).draw();
+                        });
+                    }
+
+                    if (index == 3) {
+                        var cidadeDropDown = $('<select/>').attr('class', 'form-select');
+                        cidadeDropDown.append($('<option/>').attr('value', '').text('[TODAS]'));
+                        var cidade = [];
+                        $(json.data).each(function (index, element) {
+                            if ($.inArray(element.cidade, cidade) == -1) {
+                                cidade.push(element.cidade);
+                                cidadeDropDown.append($('<option/>').addClass('d-none').attr('coordid', element.estado).attr('value', element.cidade).text(element.cidade));
+                            }
+                        });
+                        $(this).replaceWith('<th class="col-sm-12 col-md-6 ps-md-2"><label class="form-label">Cidade</label>' + $(cidadeDropDown).prop('outerHTML') + '</th>');
+                        var searchControl = $("#searchTable thead tr:eq(0) th:eq(" + index + ") select");
+                        searchControl.on('change', function () {
+                            usuarioTable.column(index).search(searchControl.val()).draw();
+                        });
+                    }
+                });
+            }
+        });
+    </script>
+}

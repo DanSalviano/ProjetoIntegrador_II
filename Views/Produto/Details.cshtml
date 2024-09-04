@@ -1,0 +1,78 @@
+﻿@using PizzaDelivery.Interfaces;
+@model ProdutoAddOrEditViewModel
+@inject UserManager<UsuarioModel> _userManager
+@inject IEstadoRepository _estadoRepository
+
+@{
+    Layout = null;
+    var usuarioInclusao = await _userManager.FindByIdAsync(@Model.UsuarioIdInclusao);
+    var usuarioAlteracao = await _userManager.FindByIdAsync(@Model.UsuarioIdAlteracao);
+}
+<partial name="_MensagemPartial" />
+
+<h4>@Html.DisplayFor(model => model.Produto)</h4>
+<div class="row">
+    <dl id="divImg" class="col-md-4">
+        <dd>
+            <img class="rounded-3" src="@Model.CaminhoImagem" alt="@Model.CaminhoImagem" />
+        </dd>
+    </dl>
+    <dl class="col-md-8">
+        <dt class="col-sm-2 col-md-1">
+            @Html.DisplayNameFor(model => model.Descricao):
+        </dt>
+        <dd class="col-sm-10 col-md-11">
+            @Html.DisplayFor(model => model.Descricao)
+        </dd>
+        <dt class="col-sm-2 col-md-1">
+            @Html.DisplayNameFor(model => model.Conteudo):
+        </dt>
+        <dd class="col-sm-10 col-md-11">
+            @Html.DisplayFor(model => model.Conteudo)@(("unidCento".Contains(Model.Medida)) ? " " : "")@Html.DisplayFor(model => model.Medida)
+        </dd>
+
+
+        <dt class="col-sm-2 col-md-1">
+            @Html.DisplayNameFor(model => model.Preco):
+        </dt>
+        <dd class="col-sm-10 col-md-11">
+            @Html.DisplayFor(model => model.Preco)
+        </dd>
+        <dt class="col-sm-2 col-md-1">
+            @Html.DisplayNameFor(model => model.Ingredientes):
+        </dt>
+        <dd class="col-sm-10 col-md-11">
+            @Html.DisplayFor(model => model.Ingredientes)
+        </dd>
+        <dt class="col-sm-2 col-md-1">
+            @Html.DisplayNameFor(model => model.IsAtivo):
+        </dt>
+        <dd class="col-sm-10 col-md-11">
+            @Html.DisplayFor(model => model.IsAtivo)
+        </dd>
+        <dt class="col-sm-2 col-md-1">
+            @Html.DisplayNameFor(model => model.IsExcluido):
+        </dt>
+        <dd class="col-sm-10 col-md-11">
+            @Html.DisplayFor(model => model.IsExcluido)
+        </dd>
+    </dl>
+</div>
+
+<div class="text-muted p-2 mb-3 border">
+    <div class="row">
+        <div class="col-lg-12 col-xl-6">
+            Incluído por <b>@usuarioInclusao?.NomeCompleto.ToUpper()</b> em @Html.DisplayFor(model => model.DataInclusao)
+        </div>
+        @if (!string.IsNullOrWhiteSpace(Model.UsuarioIdAlteracao))
+        {
+            <div class="col-lg-12 col-xl-6 text-xl-end">
+                Alterado por <b>@usuarioAlteracao?.NomeCompleto.ToUpper()</b> em @Html.DisplayFor(model => model.DataAlteracao)
+            </div>
+        }
+    </div>
+</div>
+<div class="modal-footer row justify-content-end gap-2 pt-3 pb-0">
+    <a onclick="showInPopup('@Url.Action("AddOrEdit","Produto",new {id=Model.Id},Context.Request.Scheme)','Alterar Produto')" class="btn btn-primary col-md-2" title="Alterar Produto">Editar&nbsp;Produto</a>
+    <button type="button" class="btn btn-secondary col-md-2" data-bs-dismiss="modal">Fechar</button>
+</div>

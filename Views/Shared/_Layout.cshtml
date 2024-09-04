@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RappiPizzas - @ViewBag.Subtitulo</title>
+    <link rel="shortcut icon" href="/img/iconerapipizzas.ico" type="image/x-icon">
+
+    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" />
+    @await RenderSectionAsync("styles", required: false)
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top shadow-sm border-bottom bg-gradient">
+        <div class="container-fluid">
+            <a class="navbar-brand me-4" href="/"><img src="\img\logo02hor.png" alt="RappiPizzas" width="220px" /></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="true" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mb-2 mb-lg-0 text-center me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Index" asp-link-class="link-ativo">Cardápio</a>
+                    </li>
+                    @if (Context.User.Identity.IsAuthenticated)
+                    {
+                        @if (Context.User.IsInRole("administrador") || Context.User.IsInRole("gerente") || Context.User.IsInRole("pizzaiolo") || Context.User.IsInRole("entregador"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Pedido" asp-action="Index" asp-link-class="link-ativo">Acompanhar Pedidos </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Pedido" asp-action="Index" asp-link-class="link-ativo">Meus Pedidos </a>
+                            </li>
+                        }
+                        @if (Context.User.IsInRole("administrador") || Context.User.IsInRole("gerente"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Categoria" asp-action="Index" asp-link-class="link-ativo">Categorias </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Produto" asp-action="Index" asp-link-class="link-ativo">Produtos</a>
+                            </li>
+
+                            @if (Context.User.IsInRole("administrador"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Estado" asp-action="Index" asp-link-class="link-ativo">Estados</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-controller="Cidade" asp-action="Index" asp-link-class="link-ativo">Cidades</a>
+                                </li>
+                            }
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Usuario" asp-action="Index" asp-link-class="link-ativo">Usuários</a>
+                            </li>
+                        }
+                    }
+                </ul>
+                <ul class="navbar-nav mb-2 mb-lg-0">
+                    <li class="nav-item me-4">
+                        <a class="nav-link" asp-controller="ShoppingCart" asp-action="Index" asp-link-class="link-ativo"><i class="bi-cart"></i></a>
+                    </li>
+                    <partial name="_LoginLogoutLinkPartial" />
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container-xxl main-container" role="main">
+        @RenderBody()
+    </main>
+
+    <!--Div do spinner-->
+    <div class="loaderbody" id="loaderbody">
+        <div class="loader"></div>
+    </div>
+    <!------------------>
+
+    <footer class="text-center glass pt-2">
+        <div class="d-flex flex-column alig-items-center">
+            <div>
+                <img src="\img\logo01vert.png" width="60" alt="RappiPizzas" />
+            </div>
+            <div>
+                RappiPizzas Delivery WebApp &copy;
+                Todos os direitos reservados
+            </div>
+            @*
+            <div>
+                <partial name="_NomeCurrentUserRolePartial" />
+            </div> *@
+        </div>
+    </footer>
+
+    <div class="modal fade" tabindex="-1" id="ajaxloginform-modal">
+        <div class="modal-dialog">
+            <div class="modal-content m-auto" style="border-radius:5px;height:max-content;">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Modal body text goes here.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="~/lib/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="~/lib/bootbox.js/bootbox.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <script type="text/javascript" src="~/js/site.js" asp-append-version="true" defer></script>
+
+</body>
+
+</html>

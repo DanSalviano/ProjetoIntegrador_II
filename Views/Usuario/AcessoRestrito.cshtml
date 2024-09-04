@@ -1,0 +1,10 @@
+﻿@model String
+@{
+    ViewBag.Subtitulo = "Acesso Restrito";
+}
+<h3 class="subtitulo">@ViewBag.Subtitulo</h3>
+<hr>
+<div class="text-center">
+    <h4>Você não tem permissão para acessar a página <b>@Model</b>.</h4>
+    <a asp-action="Index" asp-controller="Home" class="btn btn-success mt-3">Voltar à Página Principal</a>
+</div>

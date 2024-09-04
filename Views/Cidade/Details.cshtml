@@ -1,0 +1,57 @@
+﻿@using PizzaDelivery.Interfaces;
+@model CidadeAddOrEditViewModel
+@inject UserManager<UsuarioModel> _userManager
+@inject IEstadoRepository _estadoRepository
+
+@{
+    Layout = null;
+    var usuarioInclusao = await _userManager.FindByIdAsync(@Model.UsuarioIdInclusao);
+    var usuarioAlteracao = await _userManager.FindByIdAsync(@Model.UsuarioIdAlteracao);
+    var estado = await _estadoRepository.GetByIdAsync(@Model.EstadoId);
+}
+<partial name="_MensagemPartial" />
+
+<h4>@Html.DisplayFor(model => model.Cidade)</h4>
+<dl class="row">
+    <dt class="col-sm-2">
+        Estado:
+    </dt>
+    <dd class="col-sm-10">
+        @estado.Estado
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.EstadoId):
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.EstadoId)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.IsAtivo):
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.IsAtivo)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.IsExcluido):
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.IsExcluido)
+    </dd>
+</dl>
+<div class="text-muted p-2 mb-3 border">
+    <div class="row">
+        <div class="col-lg-12 col-xl-6">
+            Incluído por <b>@usuarioInclusao?.NomeCompleto.ToUpper()</b> em @Html.DisplayFor(model => model.DataInclusao)
+        </div>
+        @if (!string.IsNullOrWhiteSpace(Model.UsuarioIdAlteracao))
+        {
+            <div class="col-lg-12 col-xl-6 text-xl-end">
+                Alterado por <b>@usuarioAlteracao?.NomeCompleto.ToUpper()</b> em @Html.DisplayFor(model => model.DataAlteracao)
+            </div>
+        }
+    </div>
+</div>
+<div class="modal-footer row justify-content-end gap-2 pt-3 pb-0">
+    <a onclick="showInPopup('@Url.Action("AddOrEdit","Cidade",new {id=Model.Id},Context.Request.Scheme)','Alterar Cidade')" class="btn btn-primary col-md-2" title="Alterar Cidade">Editar&nbsp;Cidade</a>
+    <button type="button" class="btn btn-secondary col-md-2" data-bs-dismiss="modal">Fechar</button>
+</div>

@@ -1,0 +1,67 @@
+@model UsuarioAddOrEditViewModel
+@{
+    ViewBag.Subtitulo = "Alteração de Cadastro";
+}
+
+<h3 class="subtitulo">@ViewBag.Subtitulo</h3>
+<hr />
+
+<div asp-validation-summary="ModelOnly" class="val-summary text-danger mb-3"></div>
+
+<form asp-action="AlterarCadastro" class="row" autocomplete="off">
+    <input type="hidden" asp-for="@Model.Id">
+    <div class="form-group mb-3 col-md-12 col-xl-6">
+        <label asp-for="EstadoId" class="control-label"></label>
+        <select asp-for="EstadoId" asp-items="@Model.Estados" class="form-select" autofocus></select>
+    </div>
+    <div class="w-100"></div>
+    <div class="form-group mb-3 col-md-12 col-xl-6">
+        <label asp-for="CidadeId" class="control-label"></label>
+        <select asp-for="CidadeId" data-id="@Model.CidadeId" class="form-select">
+            <option value="">Selecione...</option>
+        </select>
+        <span asp-validation-for="CidadeId" class="text-danger"></span>
+    </div>
+    <div class="w-100"></div>
+    <div class="form-group col-sm-8 col-lg-4 col-xl-3">
+        <label asp-for="@Model.NomeCompleto"></label><br>
+        <input asp-for="@Model.NomeCompleto" class="form-control">
+        <span asp-validation-for="@Model.NomeCompleto" class="text-danger"></span>
+    </div>
+    <div class="w-100"></div>
+    <div class="form-group col-sm-6 col-lg-3 col-xl-2">
+        <label asp-for="@Model.DataNascimento"></label><br>
+        <input asp-for="@Model.DataNascimento" class="form-control">
+        <span asp-validation-for="@Model.DataNascimento" class="text-danger"></span>
+    </div>
+    <div class="w-100"></div>
+    <div class="form-group col-sm-6 col-lg-3 col-xl-2">
+        <label asp-for="@Model.CPF"></label><br>
+        <input asp-for="@Model.CPF" class="form-control cpf">
+        <span asp-validation-for="@Model.CPF" class="text-danger"></span>
+    </div>
+    <div class="w-100"></div>
+    <div class="form-group col-sm-6 col-lg-3 col-xl-2">
+        <label asp-for="@Model.Telefone"></label><br>
+        <input asp-for="@Model.Telefone" class="form-control telefone">
+        <span asp-validation-for="@Model.Telefone" class="text-danger"></span>
+    </div>
+    <div class="w-100"></div>
+    <div class="form-group col-sm-8 col-lg-4 col-xl-3">
+        <label asp-for="@Model.Email"></label><br>
+        <input asp-for="@Model.Email" class="form-control">
+        <span asp-validation-for="@Model.Email" class="text-danger"></span>
+    </div>
+    <div class="mt-3">
+        <a asp-action="Index" class="btn btn-light">Cancelar</a>
+        <button class="btn btn-primary" type="submit">Salvar</button>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script type="text/javascript" src="~/js/Usuario.AddOrEdit.js" asp-append-version="true"></script>
+}

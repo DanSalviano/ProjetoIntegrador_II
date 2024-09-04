@@ -1,0 +1,108 @@
+﻿@model IEnumerable<CidadeViewAllModel>
+@{
+    ViewBag.Subtitulo = "Cidades";
+}
+
+@section styles {
+    <link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+}
+
+<header class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h3 class="subtitulo">@ViewBag.Subtitulo</h3>
+    </div>
+    <div>
+        <a onclick="showInPopup('@Url.Action("AddOrEdit","Cidade",new {id = string.Empty},Context.Request.Scheme)','Inclusão de Cidade')" class="btn btn-primary text-white" title="Incluir Cidade"><i class="bi bi-plus-lg"></i>&nbsp Cidade</a>
+    </div>
+</header>
+<div class="mt-3 mb-2">
+    <form class="col-md-6" asp-action="GetData" onsubmit="return jQueryAjaxPost(this);">
+        <label>Estado</label>
+        <select name="id" asp-items="@ViewBag.Estados" class="form-select" onchange="$(this).submit();"></select>
+    </form>
+</div>
+<hr />
+
+<div id="view-all">
+    @await Html.PartialAsync("_ViewAll", Model)
+</div>
+
+<div class="modal fade" tabindex="-1" id="form-modal">
+    <div class="modal-dialog pt-5 modal-xl modal-fullscreen-xl-down">
+        <div class="modal-content m-auto" style="border-radius:5px;height:max-content;">
+            <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Modal body text goes here.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(() => {
+            var target = document.querySelector('div#view-all');
+            var observer = new MutationObserver(handleMutationObserver);
+            var config = { childList: true, attributes: true };
+            var table;
+
+            function handleMutationObserver(mutations) {
+
+                //mutations.forEach(function (mutation) {
+                //    if (mutation.type == "childList") {
+                //        window.alert(mutation.type)
+                //    }
+                //});
+
+                var tabela = target.querySelector('table')
+
+                if (tabela) {
+                    if ($.fn.dataTable.isDataTable('#view-allTable')) {
+                        table = $('#view-allTable').DataTable();
+                    }
+                    else {
+                        table = $('#view-allTable').DataTable({
+                            language: Language,
+                            columnDefs: [
+                                {
+                                    target: [-1],
+                                    visible: true,
+                                    orderable: false,
+                                    searchable: false,
+                                    width: '120px',
+                                    className: 'text-center text-nowrap'
+                                }
+                            ]
+
+                        });
+                    }
+                }
+            }
+
+            observer.observe(target, config);
+
+            table = $('#view-allTable').DataTable({
+                language: Language,
+                columnDefs: [
+                    {
+                        target: [-1],
+                        visible: true,
+                        orderable: false,
+                        searchable: false,
+                        width: '120px',
+                        className: 'text-center text-nowrap'
+                    }
+                ]
+            });
+        })
+    </script>
+}
