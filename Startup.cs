@@ -51,7 +51,7 @@ namespace PizzaDelivery
             services.AddScoped<IPedidoItemRepository, PedidoItemRepository>();
 
             services.AddDbContext<PizzaDeliveryDbContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("DevConn")));
+                options.UseSqlite(Configuration.GetConnectionString("SqliteDevConn")));
 
             services.AddIdentity<UsuarioModel, IdentityRole>(options =>
             {
