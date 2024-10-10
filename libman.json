@@ -3,25 +3,27 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "library": "bootstrap@5.3.3",
-      "destination": "wwwroot/bootstrap/"
-    },
-    {
-      "library": "jquery@3.7.1",
-      "destination": "wwwroot/jquery/"
-    },
-    {
-      "provider": "jsdelivr",
-      "library": "bootstrap-icons@1.11.3",
-      "destination": "wwwroot/bootstrap-icons/"
-    },
-    {
       "library": "cldrjs@0.5.5",
       "destination": "wwwroot/lib/cldrjs/"
     },
     {
       "library": "globalize@1.7.0",
       "destination": "wwwroot/lib/globalize/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "jquery@3.7.1",
+      "destination": "wwwroot/lib/jquery/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "bootstrap@5.3.3",
+      "destination": "wwwroot/lib/bootstrap/"
+    },
+    {
+      "provider": "cdnjs",
+      "library": "bootstrap-icons@1.11.3",
+      "destination": "wwwroot/lib/bootstrap-icons/"
     }
   ]
 }

@@ -96,19 +96,19 @@ namespace PizzaDelivery.Controllers
                             var uniq = DateTime.UtcNow.Ticks;
                             if (produtoVM.ArquivoImagem != null)
                             {
-                                await _pi.ExcluirImagemAsync(ObterCaminhoImagem("\\img\\", nomeImagemAnterior));
+                                await _pi.ExcluirImagemAsync(ObterCaminhoImagem("\\img\\products\\", nomeImagemAnterior));
                                 produtoDB.NomeArquivoImagem = $"{produtoDB.Id}.{uniq}.webp";
                             }
                             if (string.IsNullOrEmpty(produtoVM.NomeArquivoImagem))
                             {
-                                await _pi.ExcluirImagemAsync(ObterCaminhoImagem("\\img\\", nomeImagemAnterior));
+                                await _pi.ExcluirImagemAsync(ObterCaminhoImagem("\\img\\products\\", nomeImagemAnterior));
                             }
 
                             _produtoRepository.Update(produtoDB);
 
                             if ((await _uow.CommitAsync()) > 0)
                             {
-                                string caminhoArquivoImagem = ObterCaminhoImagem("\\img\\", $"{produtoDB.Id}.{uniq}", ".webp");
+                                string caminhoArquivoImagem = ObterCaminhoImagem("\\img\\products\\", $"{produtoDB.Id}.{uniq}", ".webp");
                                 await _pi.SalvarUploadImagemAsync(caminhoArquivoImagem, produtoVM.ArquivoImagem);
                                 this.MostrarMensagem($"Pronto, alterei o produto {produtoDB.Produto}.");
                             }
@@ -159,7 +159,7 @@ namespace PizzaDelivery.Controllers
 
                         if ((await _uow.CommitAsync()) > 0)
                         {
-                            string caminhoArquivoImagem = ObterCaminhoImagem("\\img\\", $"{produtoDB.Id}.{uniq}", ".webp");
+                            string caminhoArquivoImagem = ObterCaminhoImagem("\\img\\products\\", $"{produtoDB.Id}.{uniq}", ".webp");
                             await _pi.SalvarUploadImagemAsync(caminhoArquivoImagem, produtoVM.ArquivoImagem);
                             this.MostrarMensagem($"Pronto, salvei o produto {produtoDB.Produto}.");
                         }

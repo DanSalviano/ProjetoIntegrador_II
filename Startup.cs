@@ -105,7 +105,6 @@ namespace PizzaDelivery
                 //app.UseExceptionHandler("/Home/Error");
             }
             app.UseRouting();
-            app.UseOutputCache();
 
             var supportedCultures = new[] { new CultureInfo("pt-BR") };
             app.UseRequestLocalization(new RequestLocalizationOptions
@@ -128,6 +127,7 @@ namespace PizzaDelivery
 
             app.UseHsts();
             app.UseHttpsRedirection();
+            app.UseOutputCache();
         }
     }
 }

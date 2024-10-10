@@ -12,7 +12,7 @@ body, html {
 
 body {
     background-color: #FFD7B3 !important;
-    background-image: url('/img/bg_pattern.png') !important;
+    background-image: url('/img/assets/bg_pattern.png') !important;
     background-attachment: fixed;
 }
 

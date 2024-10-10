@@ -1,6 +1,7 @@
 using System.Text;
 using PizzaDelivery.Models;
 using PizzaDelivery.Services;
+using Microsoft.CodeAnalysis;
 using System.Linq.Dynamic.Core;
 using Microsoft.AspNetCore.Mvc;
 using PizzaDelivery.Extensions;
@@ -8,7 +9,6 @@ using PizzaDelivery.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.OutputCaching;
-using Microsoft.CodeAnalysis;
 
 namespace PizzaDelivery.Controllers
 {
@@ -30,7 +30,7 @@ namespace PizzaDelivery.Controllers
             _wow = wow;
         }
 
-        [OutputCache(Duration = 30)]
+        [OutputCache(Duration = 3600)]
         public IActionResult Index()
         {
             // Alterar cookies com expiração menor que 15 dias para 3 meses

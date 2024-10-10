@@ -31,11 +31,11 @@ namespace PizzaDelivery.ViewModels
             {
                 if (!string.IsNullOrEmpty(NomeArquivoImagem))
                 {
-                    return Path.Combine($"\\img\\", NomeArquivoImagem);
+                    return Path.Combine($"\\img\\products\\", NomeArquivoImagem);
                 }
                 else
                 {
-                    return Path.Combine($"\\img\\sem_imagem.jpg");
+                    return Path.Combine($"\\img\\assets\\sem_imagem.jpg");
 
                 }
             }
