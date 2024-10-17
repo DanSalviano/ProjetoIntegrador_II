@@ -1,0 +1,158 @@
+@model IEnumerable<ProdutoViewAllModel>
+
+@{
+    ViewBag.Subtitulo = "Cardápio";
+}
+
+<h3 class="subtitulo">@ViewBag.Subtitulo</h3>
+<hr />
+<partial name="_MensagemPartial" />
+<div class="jumbotron m-5">
+    <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="\img\assets\tomateseco.jpg" class="d-block w-100 rounded" alt="Tomate Seco">
+                <div class="carousel-caption d-none d-md-block">
+                    <h4><img src="\img\assets\logo02hor.png" alt="RappiPizzas" width="250" /></h4>
+                    <p>Sabor pra toda vida</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="img\assets\forno.jpg" class="d-block w-100 rounded" alt="Forno a lenha">
+                <div class="carousel-caption d-none d-md-block">
+                    <h4>O Forno como tem que ser</h4>
+                    <p>O segredo de um sabor inconfundível</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="img\assets\amor.jpg" class="d-block w-100 rounded" alt="Calabresa">
+                <div class="carousel-caption d-none d-md-block">
+                    <h4>Nosso ingrediente Predileto <i class="bi bi-heart text-danger fs-1"></i></h4>
+                    <p>Tudo feito com muito amor pra você</p>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+<div class="d-flex flex-wrap justify-content-between gap-5 mt-4">
+    @foreach (var produto in Model)
+    {
+        <div class="card card-cardapio">
+            <img src="@produto.CaminhoImagem" class="card-img-top" alt="@produto.Produto">
+            <div class="cardapio-info"><i class="bi bi-info-circle-fill"></i></div>
+            <div class="p-3 text-center cardapio-info-text w-100 glass bg-gradiente fs-5">@produto.Descricao</div>
+            <div class="card-body">
+                <div class="accordion accordion-flush" id="accordionFlush">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id='@($"flush-heading{produto.Id}")'>
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target='@($"#flush-collapse{produto.Id}")' aria-expanded="false" aria-controls='@($"flush-collapse{produto.Id}")'>
+                                <h6 class="card-title overflow-hidden">@produto.Produto</h6>
+                            </button>
+                        </h2>
+                        <div id='@($"flush-collapse{produto.Id}")' class="accordion-collapse collapse" aria-labelledby='@($"flush-heading{produto.Id}")' data-bs-parent="#accordionFlush">
+                            <div class="accordion-body">
+                                <p class="card-text text-body-secondary">@produto.Ingredientes</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="card-text d-flex justify-content-between"><span class="text-capitalize">@produto.GetConteudo</span> <span>@produto.Preco.ToString("C2")</span></p>
+
+@*                 @if (produto.Categoria.ToLower().Contains("pizza") && produto.Produto.ToLower().Contains("grande"))
+                {
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-primary flex-grow-1 card-button" data-id="@produto.Id">Adicionar ao Carrinho</button>
+                        <input type="checkbox" class="btn-check" id="@produto.Id" autocomplete="off">
+                        <label class="btn btn-outline-primary" for="@produto.Id">1/2</label>
+                    </div>
+                }
+                else
+                { *@
+                    <div class="d-flex">
+                        <button class="btn btn-primary flex-grow-1 card-button" data-id="@produto.Id">Adicionar ao Carrinho</button>
+                    </div>
+@*                 } *@
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        $(() => {
+            var cardsbtn = document.querySelectorAll('.card-button');
+            cardsbtn.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    $.post(`Home/PostShoppingCartAddItem`, { produtoId: e.target.dataset.id })
+                        .done(() => {
+                            GetCartItemsCount();
+                        });
+                })
+            })
+            GetCartItemsCount();
+        });
+
+        const getCookieCartId = (name) => {
+            let cookies = document.cookie.split("; ");
+            for (let i = 0; i < cookies.length; i++) {
+                let cookie = cookies[i];
+                let [cookieName, cookieValue] = cookie.split("=");
+                if (cookieName === name) {
+                    console.log(`cookie value: ${cookieValue}`)
+                    return cookieValue;
+                }
+            }
+            return null;
+        }
+
+        const deleteCookie = (name) => {
+            var exdate = new Date();
+            exdate.setTime(exdate.getTime() + (-1 * 24 * 3600 * 1000));
+            document.cookie = name + "=" + escape("") + ((-1 == null) ? "" : "; expires=" + exdate);
+        }
+
+        const CartItemsCounterRender = (count) => {
+            if (count > 0) {
+                $(".bi-cart").closest("li").addClass("cart-notice");
+                $(".cart-notice").attr('counter', count);
+            } else {
+                $(".bi-cart").closest("li").removeClass("cart-notice");
+                $(".cart-notice").attr('counter', '0');
+            }
+        }
+
+        const GetCartItemsCount = () => {
+            let shoppingcartId = getCookieCartId("shopping_cart");
+            $.ajax({
+                type: "GET",
+                url: `Home/GetShoppingCartItemsCount/${shoppingcartId}`,
+                dataType: "json",
+                success: function (res) {
+                    console.log(`res: ${res}`);
+                    CartItemsCounterRender(res);
+                    if (res == 0)
+                        deleteCookie("shopping_cart");
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+        }
+
+
+    </script>
+}
