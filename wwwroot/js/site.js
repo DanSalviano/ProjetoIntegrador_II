@@ -56,6 +56,7 @@ telformatter = (v) => {
     v = v.replace(/(\d)(\d{4})$/, "$1-$2"); //Coloca hífen entre o quarto e o quinto dígitos
     return v;
 };
+
 cpfformatter = (v) => {
     v = v.replace(/\D/g, "").substring(0, 11); //Remove tudo o que não é dígito
     v = v.replace(/^(\d{3})(\d)/g, "$1.$2"); //Coloca ponto após os 3 primeiros dígitos
