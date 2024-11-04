@@ -5,6 +5,7 @@ using PizzaDelivery.Extensions;
 using PizzaDelivery.Interfaces;
 using System.Linq.Expressions;
 using System.Xml;
+using System.Linq.Dynamic;
 
 namespace PizzaDelivery.Models
 {
@@ -47,15 +48,15 @@ namespace PizzaDelivery.Models
 
                     if (typeof(ISoftDeletable).IsAssignableFrom(entityType.ClrType))
                     {
-                        var parameter = Expression.Parameter(entityType.ClrType, entityType.ClrType.Name.First().ToString().ToLower());
-                        var queryFilterLambda = Expression.Lambda(
-                            Expression.And(
-                            Expression.Equal(Expression.Property(parameter, "IsAtivo"), Expression.Constant(true)),
-                            Expression.Equal(Expression.Property(parameter, "IsExcluido"), Expression.Constant(false))
-                            )
-                            , parameter);
+                        //var parameter = Expression.Parameter(entityType.ClrType, entityType.ClrType.Name.First().ToString().ToLower());
+                        //var queryFilterLambda = Expression.Lambda(
+                        //    Expression.And(
+                        //    Expression.Equal(Expression.Property(parameter, "IsAtivo"), Expression.Constant(true)),
+                        //    Expression.Equal(Expression.Property(parameter, "IsExcluido"), Expression.Constant(false))
+                        //    )
+                        //    , parameter);
 
-                        modelBuilder.Entity(entityType.ClrType).HasQueryFilter(queryFilterLambda);
+                        //modelBuilder.Entity(entityType.ClrType).HasQueryFilter(queryFilterLambda);
                     }
                 }
             }

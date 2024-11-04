@@ -5,11 +5,11 @@ using PizzaDelivery.Services;
 using PizzaDelivery.Settings;
 using PizzaDelivery.Interfaces;
 using PizzaDelivery.Repositories;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using SixLabors.ImageSharp.Web.Caching;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.EntityFrameworkCore;
 using SixLabors.ImageSharp.Web.DependencyInjection;
+using SixLabors.ImageSharp.Web.Caching;
 
 namespace PizzaDelivery
 {
@@ -52,8 +52,11 @@ namespace PizzaDelivery
 
             string connectionString = Configuration.GetConnectionString("MySqlDevConn");
             services.AddDbContext<PizzaDeliveryDbContext>(options =>
-                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
-                  .LogTo(Console.WriteLine, LogLevel.Information));
+                options.UseMySQL(connectionString)
+                  .LogTo(Console.WriteLine, LogLevel.Information)
+                  .EnableSensitiveDataLogging()
+                  .EnableDetailedErrors()
+                  );
 
             services.AddIdentity<UsuarioModel, IdentityRole>(options =>
             {
