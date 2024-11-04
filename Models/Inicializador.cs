@@ -49,6 +49,7 @@ namespace PizzaDelivery.Models
                     CidadeId = Guid.NewGuid().ToString(),
                     IsAtivo = true,
                 };
+                usuario.Id = "433851ef-ef3c-4235-aa7c-d69b7fa58ece";
                 usuario.UsuarioIdInclusao = usuario.Id; //atribui o proprio Id;
                 var resultado = userManager.CreateAsync(usuario, "123456").Result;
 

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PizzaDelivery.Models;
 
@@ -15,24 +16,28 @@ namespace PizzaDelivery.Migrations
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.0-preview.7.24405.3");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(256)");
 
                     b.HasKey("Id");
 
@@ -47,17 +52,19 @@ namespace PizzaDelivery.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -70,17 +77,19 @@ namespace PizzaDelivery.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("ClaimType")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
 
@@ -92,17 +101,17 @@ namespace PizzaDelivery.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -114,10 +123,10 @@ namespace PizzaDelivery.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -129,16 +138,16 @@ namespace PizzaDelivery.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Value")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
@@ -149,14 +158,14 @@ namespace PizzaDelivery.Migrations
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(36)");
 
                     b.Property<string>("Nome")
                         .HasMaxLength(80)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(80)");
 
                     b.Property<int>("OrderGroup")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -167,23 +176,23 @@ namespace PizzaDelivery.Migrations
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(36)");
 
                     b.Property<string>("Cidade")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<DateTime?>("DataAlteracao")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("DataExclusao")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("DataInclusao")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasDefaultValueSql("datetime('now', 'localtime', 'start of day')");
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("current_timestamp()");
 
                     b.Property<string>("EstadoId")
                         .IsRequired()
@@ -191,23 +200,23 @@ namespace PizzaDelivery.Migrations
                         .HasColumnType("char(2)");
 
                     b.Property<bool>("IsAtivo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsExcluido")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("UsuarioIdAlteracao")
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(36)");
 
                     b.Property<string>("UsuarioIdExclusao")
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(36)");
 
                     b.Property<string>("UsuarioIdInclusao")
                         .IsRequired()
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(36)");
 
                     b.HasKey("Id");
 
@@ -222,42 +231,42 @@ namespace PizzaDelivery.Migrations
 
                     b.Property<string>("Capital")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("DataAlteracao")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("DataExclusao")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("DataInclusao")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasDefaultValueSql("datetime('now', 'localtime', 'start of day')");
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("current_timestamp()");
 
                     b.Property<string>("Estado")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<bool>("IsAtivo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsExcluido")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("UsuarioIdAlteracao")
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(36)");
 
                     b.Property<string>("UsuarioIdExclusao")
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(36)");
 
                     b.Property<string>("UsuarioIdInclusao")
                         .IsRequired()
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(36)");
 
                     b.HasKey("Id");
 
@@ -268,19 +277,19 @@ namespace PizzaDelivery.Migrations
                 {
                     b.Property<string>("PedidoId")
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("varchar(36)")
                         .HasColumnOrder(0);
 
                     b.Property<string>("ProdutoId")
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("varchar(36)")
                         .HasColumnOrder(1);
 
-                    b.Property<double>("Preco")
+                    b.Property<decimal>("Preco")
                         .HasColumnType("decimal(5,2)");
 
                     b.Property<int>("Quantidade")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.HasKey("PedidoId", "ProdutoId");
 
@@ -291,12 +300,12 @@ namespace PizzaDelivery.Migrations
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(36)");
 
                     b.Property<string>("Bairro")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("CEP")
                         .IsRequired()
@@ -305,34 +314,34 @@ namespace PizzaDelivery.Migrations
                     b.Property<string>("Cidade")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("Complemento")
                         .HasMaxLength(200)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<DateTime?>("DataAlteracao")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("DataExclusao")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("DataFimEntrega")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("DataFimPreparo")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("DataInclusao")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasDefaultValueSql("datetime('now', 'localtime', 'start of day')");
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("current_timestamp()");
 
                     b.Property<DateTime?>("DataInicioEntrega")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("DataInicioPreparo")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Estado")
                         .IsRequired()
@@ -340,66 +349,66 @@ namespace PizzaDelivery.Migrations
 
                     b.Property<int>("FormaPagamento")
                         .HasMaxLength(10)
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsAtivo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsExcluido")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Logradouro")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("Numero")
                         .IsRequired()
                         .HasMaxLength(10)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(10)");
 
                     b.Property<string>("Observacao")
                         .HasMaxLength(200)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("Referencia")
                         .HasMaxLength(200)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<int>("Status")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<double?>("Troco")
-                        .HasColumnType("REAL");
+                        .HasColumnType("double");
 
                     b.Property<string>("UsuarioIdAlteracao")
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(36)");
 
                     b.Property<string>("UsuarioIdExclusao")
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(36)");
 
                     b.Property<string>("UsuarioIdFimEntrega")
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(36)");
 
                     b.Property<string>("UsuarioIdFimPreparo")
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(36)");
 
                     b.Property<string>("UsuarioIdInclusao")
                         .IsRequired()
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(36)");
 
                     b.Property<string>("UsuarioIdInicioEntrega")
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(36)");
 
                     b.Property<string>("UsuarioIdInicioPreparo")
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(36)");
 
                     b.HasKey("Id");
 
@@ -410,73 +419,73 @@ namespace PizzaDelivery.Migrations
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(36)");
 
                     b.Property<string>("CategoriaId")
                         .IsRequired()
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(36)");
 
                     b.Property<int>("Conteudo")
                         .HasMaxLength(4)
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("DataAlteracao")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("DataExclusao")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("DataInclusao")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasDefaultValueSql("datetime('now', 'localtime', 'start of day')");
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("current_timestamp()");
 
                     b.Property<string>("Descricao")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("Ingredientes")
                         .IsRequired()
                         .HasMaxLength(400)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(400)");
 
                     b.Property<bool>("IsAtivo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsExcluido")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Medida")
                         .IsRequired()
                         .HasMaxLength(8)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(8)");
 
                     b.Property<string>("NomeArquivoImagem")
                         .HasMaxLength(60)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(60)");
 
-                    b.Property<double>("Preco")
+                    b.Property<decimal>("Preco")
                         .HasColumnType("decimal(5,2)");
 
                     b.Property<string>("Produto")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("UsuarioIdAlteracao")
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(36)");
 
                     b.Property<string>("UsuarioIdExclusao")
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(36)");
 
                     b.Property<string>("UsuarioIdInclusao")
                         .IsRequired()
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(36)");
 
                     b.HasKey("Id");
 
@@ -487,24 +496,25 @@ namespace PizzaDelivery.Migrations
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("varchar(36)")
                         .HasColumnOrder(0);
 
                     b.Property<string>("ProdutoId")
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT")
+                        .HasColumnType("varchar(36)")
                         .HasColumnOrder(1);
 
-                    b.Property<DateTime>("Expiracao")
-                        .HasColumnType("TEXT");
+                    b.Property<DateTime?>("Expiracao")
+                        .IsRequired()
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("Quantidade")
                         .HasMaxLength(3)
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("UsuarioId")
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(36)");
 
                     b.HasKey("Id", "ProdutoId");
 
@@ -514,105 +524,105 @@ namespace PizzaDelivery.Migrations
             modelBuilder.Entity("PizzaDelivery.Models.UsuarioModel", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
                     b.Property<string>("CPF")
                         .IsRequired()
                         .HasMaxLength(14)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(14)");
 
                     b.Property<string>("CidadeId")
                         .IsRequired()
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(36)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("DataAlteracao")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("DataExclusao")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime?>("DataInclusao")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT")
-                        .HasDefaultValueSql("datetime('now', 'localtime', 'start of day')");
+                        .HasColumnType("datetime")
+                        .HasDefaultValueSql("current_timestamp()");
 
                     b.Property<DateTime>("DataNascimento")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsAlteraSenhaLogin")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsAtivo")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsExcluido")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("NomeCompleto")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("longtext");
 
                     b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<string>("UsuarioIdAlteracao")
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(36)");
 
                     b.Property<string>("UsuarioIdExclusao")
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(36)");
 
                     b.Property<string>("UsuarioIdInclusao")
                         .IsRequired()
                         .HasMaxLength(36)
-                        .HasColumnType("TEXT");
+                        .HasColumnType("varchar(36)");
 
                     b.HasKey("Id");
 

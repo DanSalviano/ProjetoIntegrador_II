@@ -50,8 +50,10 @@ namespace PizzaDelivery
             services.AddScoped<IPedidoRepository, PedidoRepository>();
             services.AddScoped<IPedidoItemRepository, PedidoItemRepository>();
 
+            string connectionString = Configuration.GetConnectionString("MySqlDevConn");
             services.AddDbContext<PizzaDeliveryDbContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("SqliteDevConn")));
+                options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
+                  .LogTo(Console.WriteLine, LogLevel.Information));
 
             services.AddIdentity<UsuarioModel, IdentityRole>(options =>
             {

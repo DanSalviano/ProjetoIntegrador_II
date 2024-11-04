@@ -18,7 +18,7 @@ namespace PizzaDelivery.Repositories
 
         public void RollBack()
         {
-            //Não faz nada, para que os objetos sejam coletados ao final da requisição
+            //Não faz nada, para que os objetos sejam coletados pelo garbage colector ao final da requisição
         }
     }
 }

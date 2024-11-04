@@ -38,7 +38,10 @@ namespace PizzaDelivery.Models
                     {
                         modelBuilder.Entity(entityType.ClrType).Property("DataInclusao")
                             //.HasDefaultValueSql("SysDateTime()")  // SQLServer
-                            .HasDefaultValueSql("datetime('now', 'localtime', 'start of day')")  // Sqlite
+                            //.HasDefaultValueSql("datetime('now', 'localtime', 'start of day')")  // Sqlite
+                            //.HasDefaultValueSql("datetime('now', 'localtime')")  // Sqlite
+                            .HasDefaultValueSql("current_timestamp()")  // MySql
+                            .HasColumnType("datetime")        // MySql
                             .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
                     }
 
@@ -59,19 +62,22 @@ namespace PizzaDelivery.Models
 
             modelBuilder.Entity<UsuarioModel>().Property(u => u.DataInclusao)
                 //.HasDefaultValueSql("SysDateTime()")  // SQLServer
-                .HasDefaultValueSql("datetime('now', 'localtime', 'start of day')")  // Sqlite
+                //.HasDefaultValueSql("datetime('now', 'localtime', 'start of day')")  // Sqlite
+                //.HasDefaultValueSql("datetime('now', 'localtime')")  // Sqlite
+                .HasDefaultValueSql("current_timestamp()")  // MySql
+                .HasColumnType("datetime")        // MySql
                 .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 
-            modelBuilder.Entity<UsuarioModel>().HasQueryFilter(p => p.IsAtivo && !p.IsExcluido);
+            modelBuilder.Entity<UsuarioModel>().HasQueryFilter(p => p.IsAtivo == true && p.IsExcluido == false);
 
             //===================Sqlite=======================
-            modelBuilder.Entity<ProdutoModel>()
-                .Property(e => e.Preco)
-                .HasConversion<double>();
+            //modelBuilder.Entity<ProdutoModel>()
+            //    .Property(e => e.Preco)
+            //    .HasConversion<double>();
 
-            modelBuilder.Entity<PedidoItemModel>()
-                .Property(e => e.Preco)
-                .HasConversion<double>();
+            //modelBuilder.Entity<PedidoItemModel>()
+            //    .Property(e => e.Preco)
+            //    .HasConversion<double>();
             //================================================
             base.OnModelCreating(modelBuilder);
         }
