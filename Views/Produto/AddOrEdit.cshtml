@@ -88,7 +88,7 @@
 
         const inputImagem = document.querySelector('#ArquivoImagem');
         inputImagem.addEventListener('change', (e) => {
-            let file = e.srcElement.files[0];
+            let file = e.target.files[0];
             let reader = new FileReader();
             reader.onloadend = function () {
                 imgAtual.src = reader.result;

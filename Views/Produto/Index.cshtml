@@ -1,7 +1,8 @@
-﻿@model IEnumerable<ProdutoViewAllModel>
-@{
-    ViewBag.Subtitulo = "Produtos";
-}
+﻿@using PizzaDelivery.Views.Shared.Component
+@model IEnumerable<ProdutoViewAllModel>
+@* @{
+    ViewBag.Subtitulo = "Produtos - " + DateTime.Now.ToString("T");
+} *@
 
 @section styles {
     <link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
@@ -16,15 +17,19 @@
     </div>
 </header>
 <div class="mt-3 mb-2 row">
-    <form class="col-sm-6 col-md-8 col-xl-6" asp-action="GetData" onsubmit="return jQueryAjaxPost(this);">
+    <form class="col-sm-6 col-md-8 col-xl-6" asp-action="GetData" onsubmit="return jQueryAjaxPost(this);" >
         <label>Categoria</label>
-        <select name="CategoriaId" asp-items="@ViewBag.Categorias" class="form-select" onchange="$(this).submit();"></select>
+        <select name="CategoriaId" asp-items="@ViewBag.Categorias" class="form-select" onchange="$(this).parent().submit();"></select>
     </form>
 </div>
 <hr />
 
 <div id="view-all">
     @await Html.PartialAsync("_ViewAll", Model)
+</div>
+
+<div>
+    <component type="typeof(ProdutoList)" render-mode="ServerPrerendered" />
 </div>
 
 <div class="modal fade" tabindex="-1" id="form-modal">
@@ -45,56 +50,35 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
 
     <script type="text/javascript">
         $(document).ready(() => {
-            var target = document.querySelector('div#view-all');
-            var observer = new MutationObserver(handleMutationObserver);
-            var config = { childList: true, attributes: true };
-            var table;
+            const target = document.querySelector('div#view-all');
+            const observer = new MutationObserver(handleMutationObserver);
+            const config = { childList: true, attributes: true };
 
             function handleMutationObserver(mutations) {
-
-                //mutations.forEach(function (mutation) {
-                //    if (mutation.type == "childList") {
-                //        window.alert(mutation.type)
-                //    }
-                //});
-
-                var tabela = target.querySelector('table')
-
-                if (tabela) {
-                    if ($.fn.dataTable.isDataTable('#view-allTable')) {
-                        table = $('#view-allTable').DataTable();
-                    }
-                    else {
-                        table = $('#view-allTable').DataTable({
-                            language: Language,
-                            columnDefs: [
-                                {
-                                    target: [-1],
-                                    visible: true,
-                                    orderable: false,
-                                    searchable: false,
-                                    width: '120px',
-                                    className: 'text-center text-nowrap'
-                                }
-                            ]
-
-                        });
-                    }
+                const tabela = target.querySelector('table');
+                if (tabela && !$.fn.dataTable.isDataTable('#view-allTable')) {
+                    initializeDataTable();
                 }
             }
 
             observer.observe(target, config);
+            if (target.querySelector('table')) {
+                initializeDataTable();
+            }
+        });
 
-            table = $('#view-allTable').DataTable({
+        function initializeDataTable() {
+            $('#view-allTable').DataTable({
+                destroy: true,
                 language: Language,
                 columnDefs: [
                     {
-                        target: [-1],
+                        targets: [-1],
                         visible: true,
                         orderable: false,
                         searchable: false,
@@ -103,7 +87,6 @@
                     }
                 ]
             });
-        })
-
+        }
     </script>
 }

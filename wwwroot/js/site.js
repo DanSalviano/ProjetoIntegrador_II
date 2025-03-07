@@ -24,7 +24,6 @@ $(() => {
         })
     });
 
-
     let cpfinputs = document.querySelectorAll("input.cpf");
     cpfinputs.forEach((el) => {
         el.addEventListener("input", (e) => {

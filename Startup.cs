@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using SixLabors.ImageSharp.Web.DependencyInjection;
 using SixLabors.ImageSharp.Web.Caching;
+using MudBlazor.Services;
 
 namespace PizzaDelivery
 {
@@ -20,8 +21,13 @@ namespace PizzaDelivery
         public Startup(IConfiguration configuration) => Configuration = configuration;
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllersWithViews()
+                .AddRazorRuntimeCompilation();
 
-            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+            services.AddRazorPages();
+            services.AddServerSideBlazor(); // Adicione esta linha
+            services.AddMudServices(); // Adicione esta linha
+
             services.AddOutputCache();
             services.AddImageSharp(options =>
                 {
@@ -50,13 +56,20 @@ namespace PizzaDelivery
             services.AddScoped<IPedidoRepository, PedidoRepository>();
             services.AddScoped<IPedidoItemRepository, PedidoItemRepository>();
 
-            string connectionString = Configuration.GetConnectionString("MySqlDevConn");
+            //string connectionString = Configuration.GetConnectionString("MySqlDevConn");
+            //services.AddDbContext<PizzaDeliveryDbContext>(options =>
+            //    options.UseMySQL(connectionString)
+            //      .LogTo(Console.WriteLine, LogLevel.Information)
+            //      .EnableSensitiveDataLogging()
+            //      .EnableDetailedErrors()
+            //      );
+
+            string connectionString = Configuration.GetConnectionString("postgresql");
             services.AddDbContext<PizzaDeliveryDbContext>(options =>
-                options.UseMySQL(connectionString)
-                  .LogTo(Console.WriteLine, LogLevel.Information)
-                  .EnableSensitiveDataLogging()
-                  .EnableDetailedErrors()
-                  );
+                options.UseNpgsql(connectionString));
+
+            // Para evitar problemas com DateTime.OffSet no PostgreSQL
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
             services.AddIdentity<UsuarioModel, IdentityRole>(options =>
             {
@@ -93,7 +106,6 @@ namespace PizzaDelivery
             });
         }
 
-
         public void Configure(
             IApplicationBuilder app,
             IWebHostEnvironment env,
@@ -109,6 +121,7 @@ namespace PizzaDelivery
                 // Para ambiente de produção, você pode configurar um tratamento de erro personalizado.
                 //app.UseExceptionHandler("/Home/Error");
             }
+
             app.UseRouting();
 
             var supportedCultures = new[] { new CultureInfo("pt-BR") };
@@ -124,9 +137,12 @@ namespace PizzaDelivery
             app.UseStaticFiles();
             app.UseAuthentication();
             app.UseAuthorization();
+
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
+                endpoints.MapBlazorHub();
             });
             Inicializador.InicializarIdentity(userManager, roleManager).Wait();
 

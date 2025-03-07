@@ -1,0 +1,18 @@
+﻿@page "/produto-list"
+@using Microsoft.AspNetCore.Components
+
+<h3>Blazor Component</h3>
+<button @onclick="Test" class="btn btn-dark">Click to get answer</button>
+<br />
+<div>@Data </div>
+
+@code {
+    [Parameter]
+    public string Data { get; set; } = string.Empty;
+
+    int count = 0;
+    private void Test()
+    {
+        Data = $"Button Clicked {count++} times";
+    }
+}

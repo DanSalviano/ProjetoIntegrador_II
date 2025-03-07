@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PizzaDelivery.Interfaces;
-using PizzaDelivery.Models;
-using PizzaDelivery.ViewModels;
+﻿using PizzaDelivery.Models;
 using System.Linq.Expressions;
+using PizzaDelivery.Interfaces;
+using PizzaDelivery.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace PizzaDelivery.Repositories
 {

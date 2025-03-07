@@ -4,8 +4,8 @@ using PizzaDelivery.ViewModels;
 using PizzaDelivery.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using PizzaDelivery.Extensions;
-using Microsoft.EntityFrameworkCore;
 using static PizzaDelivery.Helper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 
 namespace PizzaDelivery.Controllers

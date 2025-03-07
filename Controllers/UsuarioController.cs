@@ -14,7 +14,6 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Caching.Memory;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PizzaDelivery.Controllers
 {
@@ -77,7 +76,7 @@ namespace PizzaDelivery.Controllers
         [Authorize(Roles = "administrador,gerente")]
         public async Task<JsonResult> GetData(DataTableAjaxPostModel tablemodel)
         {
-            List<UsuarioViewAllModel> resultado = new();
+            List<UsuarioViewAllModel> resultado = [];
             //Server Side Parameter
             int start = Convert.ToInt32(tablemodel.Start);
             int length = Convert.ToInt32(tablemodel.Length);
@@ -170,7 +169,7 @@ namespace PizzaDelivery.Controllers
 
                 foreach (var usuario in usuarios.ToList())
                 {
-                    usuario.Roles = (await _userManager.GetRolesAsync(_userManager.FindByNameAsync(usuario.Login).Result)).ToList();
+                    usuario.Roles = [.. (await _userManager.GetRolesAsync(_userManager.FindByNameAsync(usuario.Login).Result))];
                     resultado.Add(usuario);
                 }
 
@@ -271,7 +270,7 @@ namespace PizzaDelivery.Controllers
                         if (alterouEmail)
                         {
                             await EnviarLinkConfirmacaoEmailAsync(usuarioDB);
-                            this.MostrarMensagem($"Pronto, alterei o usuário <b>{usuarioDB.NomeCompleto}</b>. Uma mensagem com um link de confirmação de e-mail foi enviada para o novo endereço de e-mail informado.");
+                            this.MostrarMensagem($"Pronto, alterei o usuário <b>{usuarioDB.NomeCompleto}</b>. Uma mensagem com um link de confirmação de e-mail foi enviada para o novo endereço de e-mail.");
                         }
                         else
                         {
@@ -640,9 +639,9 @@ namespace PizzaDelivery.Controllers
         public IActionResult AcessoRestrito([FromQuery] string returnUrl)
         {
             string nomedapagina;
-            var clipindex = returnUrl.IndexOf("/", 1);
+            var clipindex = returnUrl.IndexOf('/', 1);
 
-            nomedapagina = clipindex > -1 ? returnUrl[1..clipindex] : returnUrl.Substring(1);
+            nomedapagina = clipindex > -1 ? returnUrl[1..clipindex] : returnUrl[1..];
 
             return View(model: nomedapagina); // Para que nomedapagina não seja entendido como nome da view, deve-se passar "model:".
         }
@@ -945,8 +944,10 @@ namespace PizzaDelivery.Controllers
 
         public IActionResult RedefinirSenha(string token)
         {
-            var modelo = new RedefinirSenhaViewModel();
-            modelo.Token = token;
+            var modelo = new RedefinirSenhaViewModel
+            {
+                Token = token
+            };
             return View(modelo);
         }
 

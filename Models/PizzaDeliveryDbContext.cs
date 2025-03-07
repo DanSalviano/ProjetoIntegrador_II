@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System.Linq.Expressions;
 using PizzaDelivery.Extensions;
 using PizzaDelivery.Interfaces;
-using System.Linq.Expressions;
-using System.Xml;
-using System.Linq.Dynamic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
 
 namespace PizzaDelivery.Models
 {
@@ -22,8 +21,6 @@ namespace PizzaDelivery.Models
         public DbSet<CategoriaModel> Categorias { get; set; }
         public DbSet<PedidoModel> Pedidos { get; set; }
         public DbSet<PedidoItemModel> PedidoItens { get; set; }
-
-        //public DbSet<EnderecoModel> Enderecos { get; set; }
         public DbSet<CidadeModel> Cidades { get; set; }
         public DbSet<EstadoModel> Estados { get; set; }
         public DbSet<ShoppingCartModel> ShoppingCart { get; set; }
@@ -38,40 +35,43 @@ namespace PizzaDelivery.Models
                     if (typeof(IAuditable).IsAssignableFrom(entityType.ClrType))
                     {
                         modelBuilder.Entity(entityType.ClrType).Property("DataInclusao")
-                            //.HasDefaultValueSql("SysDateTime()")  // SQLServer
-                            //.HasDefaultValueSql("datetime('now', 'localtime', 'start of day')")  // Sqlite
-                            //.HasDefaultValueSql("datetime('now', 'localtime')")  // Sqlite
-                            .HasDefaultValueSql("current_timestamp()")  // MySql
-                            .HasColumnType("datetime")        // MySql
-                            .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+                    //.HasDefaultValueSql("SysDateTime()")  // SQLServer
+                    //.HasDefaultValueSql("datetime('now', 'localtime', 'start of day')")  // Sqlite
+                    //.HasDefaultValueSql("datetime('now', 'localtime')")  // Sqlite
+                    //.HasDefaultValueSql("current_timestamp()")  // MySql
+                    //.HasColumnType("datetime")        // MySql
+
+                    .HasDefaultValueSql("current_timestamp")  // PostgreSQL
+                    .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
                     }
 
                     if (typeof(ISoftDeletable).IsAssignableFrom(entityType.ClrType))
                     {
-                        //var parameter = Expression.Parameter(entityType.ClrType, entityType.ClrType.Name.First().ToString().ToLower());
-                        //var queryFilterLambda = Expression.Lambda(
-                        //    Expression.And(
-                        //    Expression.Equal(Expression.Property(parameter, "IsAtivo"), Expression.Constant(true)),
-                        //    Expression.Equal(Expression.Property(parameter, "IsExcluido"), Expression.Constant(false))
-                        //    )
-                        //    , parameter);
+                        var parameter = Expression.Parameter(entityType.ClrType, entityType.ClrType.Name.First().ToString().ToLower());
+                        var queryFilterLambda = Expression.Lambda(
+                            Expression.And(
+                            Expression.Equal(Expression.Property(parameter, "IsAtivo"), Expression.Constant(true)),
+                            Expression.Equal(Expression.Property(parameter, "IsExcluido"), Expression.Constant(false))
+                            )
+                            , parameter);
 
-                        //modelBuilder.Entity(entityType.ClrType).HasQueryFilter(queryFilterLambda);
+                        modelBuilder.Entity(entityType.ClrType).HasQueryFilter(queryFilterLambda);
                     }
                 }
             }
 
             modelBuilder.Entity<UsuarioModel>().Property(u => u.DataInclusao)
-                //.HasDefaultValueSql("SysDateTime()")  // SQLServer
-                //.HasDefaultValueSql("datetime('now', 'localtime', 'start of day')")  // Sqlite
-                //.HasDefaultValueSql("datetime('now', 'localtime')")  // Sqlite
-                .HasDefaultValueSql("current_timestamp()")  // MySql
-                .HasColumnType("datetime")        // MySql
+                    //.HasDefaultValueSql("SysDateTime()")  // SQLServer
+                    //.HasDefaultValueSql("datetime('now', 'localtime', 'start of day')")  // Sqlite
+                    //.HasDefaultValueSql("datetime('now', 'localtime')")  // Sqlite
+                    //.HasDefaultValueSql("current_timestamp()")  // MySql
+                    //.HasColumnType("datetime")        // MySql
+                    .HasDefaultValueSql("current_timestamp")  // PostgreSQL
                 .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
 
             modelBuilder.Entity<UsuarioModel>().HasQueryFilter(p => p.IsAtivo == true && p.IsExcluido == false);
 
-            //===================Sqlite=======================
+            //=================== Sqlite =======================
             //modelBuilder.Entity<ProdutoModel>()
             //    .Property(e => e.Preco)
             //    .HasConversion<double>();

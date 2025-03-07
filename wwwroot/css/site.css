@@ -3,7 +3,7 @@
     box-sizing: border-box;
     padding: 0;
     margin: 0;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    /*font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;*/
 }
 
 body, html {
@@ -257,9 +257,9 @@ table:has(img) td {
     transition: opacity ease-in-out .05s;
 }
 
-.cardapio-info:hover {
-    opacity: 1;
-}
+    .cardapio-info:hover {
+        opacity: 1;
+    }
 
 .cardapio-info-text {
     opacity: 0;
@@ -281,8 +281,9 @@ table:has(img) td {
 
     .cart-notice::after {
         position: absolute;
-        content: "\00A0"attr(counter) "\00A0";
-        border-radius: 50%;
+        /*content: "\00A0"attr(counter) "\00A0";*/
+        content: attr(counter);
+        border-radius: 9px;
         background-color: green;
         font-size: .75rem;
         font-weight: bolder;
@@ -291,6 +292,7 @@ table:has(img) td {
         top: -10%;
         width: max-content;
         min-width: 18px;
+        padding-inline: 2px;
         text-align: center;
     }
 
