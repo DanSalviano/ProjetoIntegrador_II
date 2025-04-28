@@ -12,8 +12,8 @@ using PizzaDelivery.Models;
 namespace PizzaDelivery.Migrations
 {
     [DbContext(typeof(PizzaDeliveryDbContext))]
-    [Migration("20250307012852_InitialNeon")]
-    partial class InitialNeon
+    [Migration("20250426205135_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -187,14 +187,14 @@ namespace PizzaDelivery.Migrations
                         .HasColumnType("character varying(100)");
 
                     b.Property<DateTime?>("DataAlteracao")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("DataExclusao")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("DataInclusao")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasDefaultValueSql("current_timestamp");
 
                     b.Property<string>("EstadoId")
@@ -237,14 +237,14 @@ namespace PizzaDelivery.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("DataAlteracao")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("DataExclusao")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("DataInclusao")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasDefaultValueSql("current_timestamp");
 
                     b.Property<string>("Estado")
@@ -324,27 +324,27 @@ namespace PizzaDelivery.Migrations
                         .HasColumnType("character varying(200)");
 
                     b.Property<DateTime?>("DataAlteracao")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("DataExclusao")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("DataFimEntrega")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("DataFimPreparo")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("DataInclusao")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasDefaultValueSql("current_timestamp");
 
                     b.Property<DateTime?>("DataInicioEntrega")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("DataInicioPreparo")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Estado")
                         .IsRequired()
@@ -434,14 +434,14 @@ namespace PizzaDelivery.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateTime?>("DataAlteracao")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("DataExclusao")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("DataInclusao")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasDefaultValueSql("current_timestamp");
 
                     b.Property<string>("Descricao")
@@ -508,7 +508,7 @@ namespace PizzaDelivery.Migrations
                         .HasColumnOrder(1);
 
                     b.Property<DateTime>("Expiracao")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<int>("Quantidade")
                         .HasMaxLength(3)
@@ -546,18 +546,18 @@ namespace PizzaDelivery.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("DataAlteracao")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("DataExclusao")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("DataInclusao")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("timestamp without time zone")
                         .HasDefaultValueSql("current_timestamp");
 
                     b.Property<DateTime>("DataNascimento")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)

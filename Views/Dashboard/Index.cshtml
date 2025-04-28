@@ -1,0 +1,151 @@
+﻿@{  
+    ViewData["Title"] = "Dashboard - Gráfico de Pedidos";  
+}  
+
+<title>  
+    @ViewData["Title"]  
+</title>  
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<div class="container">
+    <div id="chart_pedidos_status" style="width:100%; height: 500px;"></div>
+    <div id="chart_pedidos_mes" style="width: 100%; height: 500px;"></div>
+    <div id="chart_vendas_produto" style="width: 100%; height: 800px;"></div>
+</div>
+ 
+<script type="text/javascript">  
+
+    google.charts.load('current', { packages: ['corechart', 'bar'] });  
+    google.charts.setOnLoadCallback(CarregaDados);  
+
+    function CarregaDados() {  
+        CarregaPedidosPorStatus();  
+        CarregaPedidosPorMes();  
+        CarregaVendasPorProduto();  
+    }  
+
+    function CarregaPedidosPorStatus() {  
+        $.ajax({  
+            url: '@Url.Action("PedidosPorStatusGrafico", "Dashboard")',  
+            dataType: "json",  
+            type: "GET",  
+            error: function (xhr, status, error) {  
+                var err = eval("(" + xhr.responseText + ")");  
+                bootobox.alert(err.message);  
+            },  
+            success: function (data) {
+                console.log('Pedidos por status: ',data);
+                GraficoPedidosPorStatus(data);  
+            } 
+        });  
+    }  
+
+    function CarregaPedidosPorMes() {  
+        $.ajax({  
+            url: '@Url.Action("FaturamentoPorMesGrafico", "Dashboard")',  
+            dataType: "json",  
+            type: "GET",  
+            error: function (xhr, status, error) {  
+                var err = eval("(" + xhr.responseText + ")");  
+                bootobox.alert(data).error(err.message);  
+            },  
+            success: function (data) {
+                console.log('Pedidos por mês: ',data);
+                GraficoPedidosPorMes(data);  
+            }  
+        });  
+    }  
+
+    function CarregaVendasPorProduto() {  
+        $.ajax({  
+            url: '@Url.Action("VendasPorProdutoGrafico", "Dashboard")',  
+            dataType: "json",  
+            type: "GET",  
+            error: function (xhr, status, error) {  
+                var err = eval("(" + xhr.responseText + ")");  
+                bootbox.alert(err.message);  
+            },  
+            success: function (data) {
+                console.log('Vendas por produto: ',data);
+                GraficoVendasPorProduto(data);  
+            }  
+        });  
+    }  
+
+    function GraficoPedidosPorStatus(data) {  
+        var dataArray = [  
+            ['Status', 'Quantidade']  
+        ];  
+        $.each(data, function (i, item) {  
+            dataArray.push([item.status, item.quantidade]);  
+        });  
+
+        var dataTable = google.visualization.arrayToDataTable(dataArray);  
+        var options = {  
+            title: 'Pedidos por Status',  
+            chartArea: { width: '50%' },  
+            hAxis: {  
+                title: 'Quantidade',  
+                minValue: 0  
+            },  
+            vAxis: {  
+                title: 'Status'  
+            }  
+        };  
+
+        var chart = new google.visualization.BarChart(document.getElementById('chart_pedidos_status'));  
+        chart.draw(dataTable, options);  
+    }  
+
+    function GraficoPedidosPorMes(data) {  
+        var dataArray = [  
+            ['Mês/Ano', 'Quantidade']  
+        ];  
+        $.each(data, function (i, item) {  
+            var mesAno = item.mes + '/' + item.ano;  
+            dataArray.push([mesAno, item.quantidade]);  
+        });  
+
+        var dataTable = google.visualization.arrayToDataTable(dataArray);  
+        var options = {  
+            title: 'Pedidos por Mês',  
+            chartArea: { width: '50%' },  
+            vAxis: {  
+                title: 'Quantidade',  
+                minValue: 0  
+            },  
+            hAxis: {  
+                title: 'Mês/Ano'  
+            }  
+        };  
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_pedidos_mes'));  
+        chart.draw(dataTable, options);  
+    }  
+
+    function GraficoVendasPorProduto(data) {  
+        console.info('Executando GraficoVendsPorProduto()',data);
+        var dataArray = [  
+            ['Produto', 'Quantidade']  
+        ];  
+        $.each(data, function (i, item) {  
+            dataArray.push([item.produto, Number(item.quantidade)]);  
+        });  
+
+        var dataTable = google.visualization.arrayToDataTable(dataArray);  
+        var options = {  
+            title: 'Vendas por Produto',  
+            chartArea: { width: '50%' },  
+            hAxis: {  
+                title: 'Quantidade',  
+                minValue: 0  
+            },  
+            vAxis: {  
+                title: 'Produto'  
+            }  
+        };  
+
+        var chart = new google.visualization.BarChart(document.getElementById('chart_vendas_produto'));  
+        chart.draw(dataTable, options);  
+    }  
+
+</script>

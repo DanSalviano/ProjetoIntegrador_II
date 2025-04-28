@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using SixLabors.ImageSharp.Web.DependencyInjection;
 using SixLabors.ImageSharp.Web.Caching;
-using MudBlazor.Services;
 
 namespace PizzaDelivery
 {
@@ -26,7 +25,6 @@ namespace PizzaDelivery
 
             services.AddRazorPages();
             services.AddServerSideBlazor(); // Adicione esta linha
-            services.AddMudServices(); // Adicione esta linha
 
             services.AddOutputCache();
             services.AddImageSharp(options =>

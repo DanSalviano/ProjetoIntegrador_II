@@ -27,7 +27,6 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="9.0.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.2" />
-		<PackageReference Include="MudBlazor" Version="8.3.0" />
 	</ItemGroup>
 
 	<ItemGroup>

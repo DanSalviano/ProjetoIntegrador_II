@@ -1,9 +1,9 @@
-﻿using Org.BouncyCastle.Cms;
-using PizzaDelivery.Interfaces;
+﻿using PizzaDelivery.Interfaces;
 using PizzaDelivery.ViewModels;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace PizzaDelivery.Models
 {
@@ -17,6 +17,7 @@ namespace PizzaDelivery.Models
         public string Id { get; set; }
 
         [Required]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public PedidoStatus Status { get; set; }
 
         [Required]

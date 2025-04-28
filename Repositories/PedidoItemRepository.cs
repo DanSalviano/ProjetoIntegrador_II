@@ -16,6 +16,11 @@ namespace PizzaDelivery.Repositories
             await _context.PedidoItens.AddAsync(entity);
         }
 
+        public IQueryable<PedidoItemModel> GetItemsQuery()
+        {
+            return _context.PedidoItens;
+        }
+
         public IQueryable<PedidoItemModel> GetItemsQuery(string pedidoId)
         {
             return _context.PedidoItens.Where(i => i.PedidoId == pedidoId);

@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace PizzaDelivery.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialNeon : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -33,17 +33,17 @@ namespace PizzaDelivery.Migrations
                     Id = table.Column<string>(type: "text", nullable: false),
                     CidadeId = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
                     NomeCompleto = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    DataNascimento = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    DataNascimento = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     CPF = table.Column<string>(type: "character varying(14)", maxLength: 14, nullable: false),
                     IsAlteraSenhaLogin = table.Column<bool>(type: "boolean", nullable: false),
                     UsuarioIdInclusao = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
-                    DataInclusao = table.Column<DateTime>(type: "timestamp with time zone", nullable: true, defaultValueSql: "current_timestamp"),
+                    DataInclusao = table.Column<DateTime>(type: "timestamp without time zone", nullable: true, defaultValueSql: "current_timestamp"),
                     UsuarioIdAlteracao = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
-                    DataAlteracao = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DataAlteracao = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     IsAtivo = table.Column<bool>(type: "boolean", nullable: false),
                     IsExcluido = table.Column<bool>(type: "boolean", nullable: false),
                     UsuarioIdExclusao = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
-                    DataExclusao = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DataExclusao = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -85,13 +85,13 @@ namespace PizzaDelivery.Migrations
                     Cidade = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     EstadoId = table.Column<string>(type: "char(2)", maxLength: 2, nullable: false),
                     UsuarioIdInclusao = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
-                    DataInclusao = table.Column<DateTime>(type: "timestamp with time zone", nullable: true, defaultValueSql: "current_timestamp"),
+                    DataInclusao = table.Column<DateTime>(type: "timestamp without time zone", nullable: true, defaultValueSql: "current_timestamp"),
                     UsuarioIdAlteracao = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
-                    DataAlteracao = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DataAlteracao = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     IsAtivo = table.Column<bool>(type: "boolean", nullable: false),
                     IsExcluido = table.Column<bool>(type: "boolean", nullable: false),
                     UsuarioIdExclusao = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
-                    DataExclusao = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    DataExclusao = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -106,13 +106,13 @@ namespace PizzaDelivery.Migrations
                     Estado = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Capital = table.Column<string>(type: "text", nullable: false),
                     UsuarioIdInclusao = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
-                    DataInclusao = table.Column<DateTime>(type: "timestamp with time zone", nullable: true, defaultValueSql: "current_timestamp"),
+                    DataInclusao = table.Column<DateTime>(type: "timestamp without time zone", nullable: true, defaultValueSql: "current_timestamp"),
                     UsuarioIdAlteracao = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
-                    DataAlteracao = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DataAlteracao = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     IsAtivo = table.Column<bool>(type: "boolean", nullable: false),
                     IsExcluido = table.Column<bool>(type: "boolean", nullable: false),
                     UsuarioIdExclusao = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
-                    DataExclusao = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    DataExclusao = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -136,22 +136,22 @@ namespace PizzaDelivery.Migrations
                     FormaPagamento = table.Column<int>(type: "integer", maxLength: 10, nullable: false),
                     Troco = table.Column<double>(type: "double precision", nullable: true),
                     Observacao = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
-                    DataInicioPreparo = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DataInicioPreparo = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     UsuarioIdInicioPreparo = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
-                    DataFimPreparo = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DataFimPreparo = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     UsuarioIdFimPreparo = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
-                    DataInicioEntrega = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DataInicioEntrega = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     UsuarioIdInicioEntrega = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
-                    DataFimEntrega = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DataFimEntrega = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     UsuarioIdFimEntrega = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
                     UsuarioIdInclusao = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
-                    DataInclusao = table.Column<DateTime>(type: "timestamp with time zone", nullable: true, defaultValueSql: "current_timestamp"),
+                    DataInclusao = table.Column<DateTime>(type: "timestamp without time zone", nullable: true, defaultValueSql: "current_timestamp"),
                     UsuarioIdAlteracao = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
-                    DataAlteracao = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DataAlteracao = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     IsAtivo = table.Column<bool>(type: "boolean", nullable: false),
                     IsExcluido = table.Column<bool>(type: "boolean", nullable: false),
                     UsuarioIdExclusao = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
-                    DataExclusao = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    DataExclusao = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -186,13 +186,13 @@ namespace PizzaDelivery.Migrations
                     Preco = table.Column<decimal>(type: "numeric(5,2)", nullable: false),
                     NomeArquivoImagem = table.Column<string>(type: "character varying(60)", maxLength: 60, nullable: true),
                     UsuarioIdInclusao = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
-                    DataInclusao = table.Column<DateTime>(type: "timestamp with time zone", nullable: true, defaultValueSql: "current_timestamp"),
+                    DataInclusao = table.Column<DateTime>(type: "timestamp without time zone", nullable: true, defaultValueSql: "current_timestamp"),
                     UsuarioIdAlteracao = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
-                    DataAlteracao = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    DataAlteracao = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     IsAtivo = table.Column<bool>(type: "boolean", nullable: false),
                     IsExcluido = table.Column<bool>(type: "boolean", nullable: false),
                     UsuarioIdExclusao = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
-                    DataExclusao = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    DataExclusao = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -207,7 +207,7 @@ namespace PizzaDelivery.Migrations
                     ProdutoId = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
                     UsuarioId = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: true),
                     Quantidade = table.Column<int>(type: "integer", maxLength: 3, nullable: false),
-                    Expiracao = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    Expiracao = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
                 },
                 constraints: table =>
                 {

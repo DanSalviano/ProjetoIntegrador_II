@@ -1,8 +1,8 @@
 ﻿@using PizzaDelivery.Views.Shared.Component
 @model IEnumerable<ProdutoViewAllModel>
-@* @{
-    ViewBag.Subtitulo = "Produtos - " + DateTime.Now.ToString("T");
-} *@
+@{
+    ViewBag.Subtitulo = "Produtos";
+}
 
 @section styles {
     <link href="https://cdn.datatables.net/1.13.5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
@@ -26,10 +26,6 @@
 
 <div id="view-all">
     @await Html.PartialAsync("_ViewAll", Model)
-</div>
-
-<div>
-    <component type="typeof(ProdutoList)" render-mode="ServerPrerendered" />
 </div>
 
 <div class="modal fade" tabindex="-1" id="form-modal">

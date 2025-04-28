@@ -23,6 +23,11 @@ namespace PizzaDelivery.Repositories
 
             return _context.Pedidos;
         }
+        public IQueryable<PedidoModel> GetAll()
+        {
+            return _context.Pedidos;
+        }
+
         public IQueryable<PedidoViewAllModel> GetViewAllQuery()
         {
             return (from pedido in _context.Pedidos

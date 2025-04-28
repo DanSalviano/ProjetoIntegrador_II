@@ -36,7 +36,7 @@
         {
             <tr>
                 <td>
-                    <img class="picture rounded-3" src='@($"{item.CaminhoImagem}?{DateTime.UtcNow.Ticks}")' alt="@item.NomeArquivoImagem" style="max-width:80px;" />
+                    <img class="picture rounded-3" src='@item.CaminhoImagem' alt="@item.NomeArquivoImagem" style="max-width:80px;" asp-append-version=true/>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Produto)

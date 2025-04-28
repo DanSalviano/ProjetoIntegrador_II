@@ -6,6 +6,8 @@ namespace PizzaDelivery.Interfaces {
     {
         Task AddItemAsync(PedidoItemModel entity);
 
+        IQueryable<PedidoItemModel> GetItemsQuery();
+
         IQueryable<PedidoItemModel> GetItemsQuery(string pedidoId);
     }
 }

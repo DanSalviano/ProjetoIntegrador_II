@@ -26,7 +26,12 @@ namespace PizzaDelivery.Repositories
 
         public IQueryable<ProdutoModel> GetAll(Expression<Func<ProdutoModel, bool>> predicate = null)
         {
-            throw new NotImplementedException();
+            if (predicate is not null)
+            {
+                return _context.Produtos.AsNoTracking().Where(predicate);
+            }
+
+            return _context.Produtos.AsNoTracking();
         }
 
         public IQueryable<ProdutoViewAllModel> GetViewAllList(string CategoriaId = null)

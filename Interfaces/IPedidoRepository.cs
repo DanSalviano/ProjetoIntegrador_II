@@ -7,6 +7,7 @@ namespace PizzaDelivery.Interfaces
     public interface IPedidoRepository
     {
         IQueryable<PedidoModel> GetAllQuery(Expression<Func<PedidoModel, bool>> predicate = null);
+        IQueryable<PedidoModel> GetAll();
         IQueryable<PedidoViewAllModel> GetViewAllQuery();
         Task<PedidoModel> GetByIdAsync(string id);
         Task AddAsync(PedidoModel entity);
